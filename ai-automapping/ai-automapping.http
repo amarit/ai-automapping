@@ -1,0 +1,6 @@
+@ai_automapping_HostAddress = http://localhost:5036
+
+GET {{ai_automapping_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

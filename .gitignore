@@ -1,0 +1,113 @@
+############################
+# .NET / C#
+############################
+
+# Build results
+[Bb]in/
+[Oo]bj/
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+[Aa]ny [Cc]pu/
+[Ll]og/
+[Ll]ogs/
+
+# .NET Core
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+# ASP.NET
+wwwroot/lib/
+wwwroot/dist/
+
+# dotnet tools
+.dotnet/
+
+############################
+# Visual Studio
+############################
+
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+*.rsuser
+
+# Visual Studio Code
+.vscode/
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+############################
+# JetBrains Rider
+############################
+
+.idea/
+*.sln.iml
+
+############################
+# Test results & coverage
+############################
+
+TestResults/
+coverage/
+coverage.cobertura.xml
+*.coverage
+*.coveragexml
+
+############################
+# Publish outputs
+############################
+
+publish/
+*.publishsettings
+
+############################
+# OS generated files
+############################
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+############################
+# Logs & temp files
+############################
+
+*.log
+*.tmp
+*.temp
+*.bak
+*.old
+*.swp
+
+############################
+# NuGet
+############################
+
+# Packages folder (if using packages.config)
+packages/
+
+# NuGet cache (normally global, but just in case)
+.nuget/
+
+############################
+# Secrets & config overrides
+############################
+
+appsettings.*.json
+!appsettings.json
+secrets.json
+*.pfx
+*.snk
