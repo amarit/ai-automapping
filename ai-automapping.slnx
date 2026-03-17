@@ -1,3 +1,7 @@
 <Solution>
+  <Folder Name="/docs/">
+    <File Path="embeddings-doc.md" />
+    <File Path="RAG-doc.md" />
+  </Folder>
   <Project Path="ai-automapping/ai-automapping.csproj" />
 </Solution>
