@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.DataProtection.KeyManagement;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using OpenAI.Chat;
@@ -30,19 +31,19 @@ namespace ai_automapping.Controllers
 
             var sourceSchema = new[]
             {
-    "product_title",
-    "color_name",
-    "material_info",
-    "product_weight"
-};
+                "product_title",
+                "color_name",
+                "material_info",
+                "product_weight"
+            };
 
-            var destinationSchema = new[]
-            {
-    "name",
-    "color",
-    "material",
-    "weight"
-};
+                        var destinationSchema = new[]
+                        {
+                "name",
+                "color",
+                "material",
+                "weight"
+            };
 
             var prompt = $"""
 Map the following source fields to the destination fields.
@@ -74,25 +75,25 @@ Return JSON array with objects containing:
             string apiKey = _apiKey;
 
             var client = new EmbeddingClient(
-    model: "text-embedding-3-small",
-    apiKey: apiKey
-);
+                model: "text-embedding-3-small",
+                apiKey: apiKey
+            );
 
-            var sourceFields = new[]
-            {
-    "product_title",
-    "color_name",
-    "fabric_type",
-    "product_weight"
-};
+                        var sourceFields = new[]
+                        {
+                "product_title",
+                "color_name",
+                "fabric_type",
+                "product_weight"
+            };
 
-            var destinationFields = new[]
-            {
-    "name",
-    "color",
-    "material",
-    "weight"
-};
+                        var destinationFields = new[]
+                        {
+                "name",
+                "color",
+                "material",
+                "weight"
+            };
 
             var sourceEmbeddings = new Dictionary<string, float[]>();
             var destinationEmbeddings = new Dictionary<string, float[]>();
@@ -149,6 +150,52 @@ Return JSON array with objects containing:
             }
 
             return Ok(mappings.Select(m => new { source = m.source, destination = m.destination, score = m.score }));
+        }
+
+        private void EmbeddingsBatchExampleRequest()
+        {
+            var client = new EmbeddingClient(
+                model: "text-embedding-3-small",
+                apiKey: _apiKey
+            );
+
+            var sourceFields = new[]
+            {
+                "product_title",
+                "color_name",
+                "fabric_type",
+                "product_weight"
+            };
+
+            var destinationFields = new[]
+            {
+                "name",
+                "color",
+                "material",
+                "weight"
+            };
+
+            var allTexts = sourceFields.Concat(destinationFields).ToList();
+
+            OpenAIEmbeddingCollection embeddings = client.GenerateEmbeddings(allTexts);
+
+            var vectors = embeddings
+                .Select(e => e.ToFloats().ToArray())
+                .ToList();
+
+            // Map the embeddings back to their respective fields
+            var sourceEmbeddings = new Dictionary<string, float[]>();
+            var destinationEmbeddings = new Dictionary<string, float[]>();
+
+            for (int i = 0; i < sourceFields.Length; i++)
+            {
+                sourceEmbeddings[sourceFields[i]] = vectors[i];
+            }
+
+            for (int i = 0; i < destinationFields.Length; i++)
+            {
+                destinationEmbeddings[destinationFields[i]] = vectors[i + sourceFields.Length];
+            }
         }
     }
 }
